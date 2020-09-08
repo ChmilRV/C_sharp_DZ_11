@@ -1,9 +1,6 @@
 ﻿using System;
 using static System.Console;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 /*С помощью класса XmlTextWriter напишите приложение, сохраняющее в XML-файл информацию о заказах.
 Каждый заказ представляет собой несколько товаров. Информацию, характеризующую заказы и товары
@@ -35,7 +32,7 @@ namespace C_sharp_DZ_11_1
             WriteLine($"Наименование: {Name}");
             WriteLine($"Цена: {Price}");
             WriteLine($"Количество: {Count}");
-            WriteLine($"Стоимость: {Cost}");
+            WriteLine($"Стоимость: {Cost}\n");
         }
     }
     public class Order
@@ -57,7 +54,7 @@ namespace C_sharp_DZ_11_1
                 order.Formatting = Formatting.Indented;
                 order.WriteStartDocument();
                 order.WriteStartElement("Заказ");
-                order.WriteStartElement("Номер " + OrderNumber.ToString());
+                order.WriteStartElement("Номер" + OrderNumber.ToString());
                 foreach (Goods goods in List)
                 {
                     order.WriteStartElement("Товар");
@@ -70,8 +67,7 @@ namespace C_sharp_DZ_11_1
                 }
                 order.WriteEndElement();
                 order.WriteEndElement();
-
-                WriteLine($"The {orderFileName} file is generated!");
+                WriteLine($"\nThe {orderFileName} file is generated!\n");
             }
             catch (Exception ex)
             {
@@ -93,8 +89,9 @@ namespace C_sharp_DZ_11_1
             OrderList1.Add(new Goods(234, "Товар2", 14.34, 73));
             OrderList1.Add(new Goods(345, "Товар3", 45.98, 39));
             OrderList1.Add(new Goods(456, "Товар4", 78.12, 83));
-            Order Order1 = new Order(OrderList1,1);
-            //foreach (Goods goods in OrderList1) goods.GoodsReport();
+            Order Order1 = new Order(OrderList1, 1);
+            WriteLine($"Заказ номер {Order1.OrderNumber}\n");
+            foreach (Goods goods in OrderList1) goods.GoodsReport();
             Order1.WriteOrder("Order1.xml");
             ReadKey();
         }
