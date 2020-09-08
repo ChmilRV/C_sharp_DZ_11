@@ -12,50 +12,72 @@ using System.Xml;
 и XmlTextReader и выведите полученную информацию на экран.*/
 namespace C_sharp_DZ_11_1
 {
-    public class Food        //Товары
+    public class Goods        //Товары
     {
-        int Article { get; set; }
-        string Name { get; set; }
-        public int Balance { get; set; }
-        public Food() { }
-        public Food(int article, string name, int balance)
+        public int Article { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public int Count { get; set; }
+        public double Cost
+        {
+            get { return Price * Count; }
+            set { }
+        }
+        public Goods() { }
+        public Goods(int article, string name, double price, int count)
         {
             Article = article;
             Name = name;
-            Balance = balance;
+            Price = price;
+            Count = count;
         }
-        public void ProductReport()
+        public void GoodsReport()
         {
             WriteLine($"Артикул: {Article:D4}");
             WriteLine($"Наименование: {Name}");
-            WriteLine($"Остаток: {Balance}\n");
+            WriteLine($"Цена: {Price}");
+            WriteLine($"Количество: {Count}");
+            WriteLine($"Стоимость: {Cost}");
         }
     }
-    
+
+    public class Order
+    {
+        public List<Goods> List { get; set; }
+        public int OrderNumber { get; set; }
+        public Order() { }
+        public Order(List<Goods> list, int orderNumber)
+        {
+            List = list;
+            OrderNumber = orderNumber;
+        }
+    }
+
     
 
 
     class Program
     {
-
-
         static void Main(string[] args)
         {
             Title = "C_sharp_DZ_11_1";
-            Food[] Foods = {
-                new Food(001,"Хлеб", 3),
-                new Food(002,"Масло", 12),
-                new Food(003,"Молоко", 4),
-                new Food (004, "Яблоко", 8)
-            };
+            List<Goods> OrderList1 =new List<Goods>();
+            OrderList1.Add(new Goods(123, "Товар1", 12.65, 12));
+            OrderList1.Add(new Goods(234, "Товар2", 14.34, 73));
+            OrderList1.Add(new Goods(345, "Товар3", 45.98, 39));
+            OrderList1.Add(new Goods(456, "Товар4", 78.12, 83));
+            Order Order1 = new Order(OrderList1,1);
+            foreach (Goods goods in OrderList1) goods.GoodsReport();
 
 
-            
+
+
+
             XmlTextWriter writer = null;
 
             try
             {
-                writer = new XmlTextWriter("foods.xml", System.Text.Encoding.Unicode);
+                writer = new XmlTextWriter("Order.xml", System.Text.Encoding.Unicode);
                 writer.Formatting = Formatting.Indented;
                 writer.WriteStartDocument();
 
@@ -70,24 +92,24 @@ namespace C_sharp_DZ_11_1
                 writer.WriteEndElement();
                 writer.WriteEndElement();
 
-               
 
 
-                
-
-                WriteLine("The foods.xml file is generated!");
-            }
-            catch (Exception ex)
-            {
-                WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (writer != null) writer.Close();
-            }
 
 
-            ReadKey();
+
+                //    WriteLine("The foods.xml file is generated!");
+                //}
+                //catch (Exception ex)
+                //{
+                //    WriteLine(ex.Message);
+                //}
+                //finally
+                //{
+                //    if (writer != null) writer.Close();
+                //}
+
+
+                ReadKey();
         }
     }
 }
