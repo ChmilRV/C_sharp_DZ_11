@@ -53,7 +53,7 @@ namespace C_sharp_DZ_11_1
         }
     }
 
-    
+
 
 
     class Program
@@ -73,43 +73,38 @@ namespace C_sharp_DZ_11_1
 
 
 
-            XmlTextWriter writer = null;
-
+            XmlTextWriter order = null;
             try
             {
-                writer = new XmlTextWriter("Order.xml", System.Text.Encoding.Unicode);
-                writer.Formatting = Formatting.Indented;
-                writer.WriteStartDocument();
+                order = new XmlTextWriter("Order.xml", System.Text.Encoding.Unicode);
+                order.Formatting = Formatting.Indented;
+                order.WriteStartDocument();
+                order.WriteStartElement("Заказ");
+                foreach (Goods goods in OrderList1)
+                {
+                    order.WriteStartElement("Товар");
+                    order.WriteElementString("Артикул", goods.Article.ToString());
+                    order.WriteElementString("Наименование", goods.Name);
+                    order.WriteElementString("Цена", goods.Price.ToString());
+                    order.WriteElementString("Количество", goods.Count.ToString());
+                    order.WriteElementString("Стоимость", goods.Cost.ToString());
+                    order.WriteEndElement();
+                }
+                order.WriteEndElement();
+
+                WriteLine("The foods.xml file is generated!");
+            }
+            catch (Exception ex)
+            {
+                WriteLine(ex.Message);
+            }
+            finally
+            {
+                if (order != null) order.Close();
+            }
 
 
-                writer.WriteStartElement("Cars");
-                writer.WriteStartElement("Car");
-
-                writer.WriteElementString("Manufactured", "La Hispano Suiza de Automovils");
-                writer.WriteElementString("Model", "Alfonso");
-                writer.WriteElementString("Year", "1912");
-
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-
-
-
-
-
-
-                //    WriteLine("The foods.xml file is generated!");
-                //}
-                //catch (Exception ex)
-                //{
-                //    WriteLine(ex.Message);
-                //}
-                //finally
-                //{
-                //    if (writer != null) writer.Close();
-                //}
-
-
-                ReadKey();
+            ReadKey();
         }
     }
 }
